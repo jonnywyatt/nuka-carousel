@@ -175,7 +175,7 @@ const Carousel = React.createClass({
             {children}
           </ul>
         </div>
-        {this.props.decorators ?
+        {this.props.decorators && self.state.showControls ?
           this.props.decorators.map(function(Decorator, index) {
             return (
               <div
@@ -681,13 +681,17 @@ const Carousel = React.createClass({
       slidesToScroll = Math.floor(frameWidth / (slideWidth + props.cellSpacing));
     }
 
+    const showControls = props.showHideControls ?
+      ((slideWidth + props.cellSpacing) * React.Children.count(this.props.children)) >= frameWidth : true;
+
     this.setState({
       slideHeight: slideHeight,
       frameWidth: frameWidth,
       slideWidth: slideWidth,
       slidesToScroll: slidesToScroll,
       left: props.vertical ? 0 : this.getTargetLeft(),
-      top: props.vertical ? this.getTargetLeft() : 0
+      top: props.vertical ? this.getTargetLeft() : 0,
+      showControls: showControls
     }, function() {
       self.setLeft()
     });
